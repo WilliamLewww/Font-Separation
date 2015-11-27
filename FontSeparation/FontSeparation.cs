@@ -42,7 +42,7 @@ namespace FontSeparation
                 if (a == false)
                 {
                     if (minX != -1)
-                        coordinateList.Add(new int[4] { minX, minY, maxX, maxY });
+                        coordinateList.Add(new int[4] { minX, minY, (maxX + 1) - minX, (maxY + 1) - minY });
 
                     minX = -1;
                     minY = bitmap.Height;
