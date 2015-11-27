@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Collections.Generic;
-using System;
 
 namespace FontSeparation
 {
@@ -13,23 +12,42 @@ namespace FontSeparation
         {
             font = bitmap;
 
-            bool a = false, b = false;
+            bool a = false;
+            int minX = -1, minY = bitmap.Height, maxX = 0, maxY = 0;
 
             for (int x = 0; x < bitmap.Width; x++)
             {
-                b = false;
+                a = false;
 
                 for (int y = 0; y < bitmap.Height; y++)
                 {
                     if (bitmap.GetPixel(x, y).A != 0)
                     {
-                        b = true;
-                    }
-
-                    if (y == bitmap.Height - 1 && b == true)
                         a = true;
-                    else if (y == bitmap.Height - 1 && b == false)
-                        a = false;
+
+                        if (minX == -1)
+                            minX = x;
+
+                        if (y < minY)
+                            minY = y;
+
+                        if (x > maxX)
+                            maxX = x;
+
+                        if (y > maxY)
+                            maxY = y;
+                    }
+                }
+
+                if (a == false)
+                {
+                    if (minX != -1)
+                        coordinateList.Add(new int[4] { minX, minY, maxX, maxY });
+
+                    minX = -1;
+                    minY = bitmap.Height;
+                    maxX = 0;
+                    maxY = 0;
                 }
             }
         }
